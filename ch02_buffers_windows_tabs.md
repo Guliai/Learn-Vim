@@ -1,4 +1,4 @@
-# Buffers, Windows, and Tabs
+# Ch 02. Buffers, Windows, And Tabs
 
 If you have used a modern text editor, you are probably familiar with windows and tabs. Vim has three abstractions instead of two: buffers, windows, and tabs.
 
@@ -6,10 +6,10 @@ In this chapter, I will explain how buffers, windows, and tabs work in Vim.
 
 Before you start, make sure you have `set hidden` option in your `vimrc`. Without this, whenever you switch buffers, Vim will prompt you to save the file (you don't want that if you want to move quickly between buffers). For more information, check out `:h hidden`.
 
-# Buffers
+## Buffers
 
-A buffer is an in-memory space where you can write and edit some text. When you are opening a new file in vim its content will be bound to a new buffer:
-  1. From within vim, open a new buffer `:new` (create a new empty buffer)
+A buffer is an in-memory space where you can write and edit some text. When you are opening a new file in Vim its content will be bound to a new buffer:
+  1. From within Vim, open a new buffer `:new` (create a new empty buffer)
   2. From your terminal, open a new file `file1.js` (create a new buffer with `file1.js` bound to it)
 
 If your buffer isn't bound to a file yet but you want to save its content, you can save it with `:w </path/to/file>`.
@@ -34,24 +34,38 @@ Vim displays `file1.js` buffer, but it actually creates two buffers: `file1.js` 
 ![buffers command showing 2 buffers](./img/screen-one-buffer-buffers-command.png)
 
 There are several ways you can traverse buffers:
-1. `:bnext` to go to the next buffer (`:bprevious` to go to the previous buffer).
-2. `:buffer` + filename. Vim can autocomplete filename with `tab`.
-3. `:buffer` + `n`, where `n` is the buffer number. For example, typing `:buffer 2` will take you to buffer #2.
+1. `:bnext` in short you can use `:bn` to go to the next buffer (`:bprevious` or `:bp` in short, to go to the previous buffer).
+2. `:buffer` + filename. Or instead `:buffer` `:b` in short. Vim can autocomplete filename with `tab`.
+3. `:buffer` + `n`, where `n` is the buffer number. Or instead `:buffer` `:b` in short. For example, typing `:buffer 2` (or `:b 2`) will take you to buffer #2.
 4. Jump to the older position in jump list with `Ctrl-o` and to the newer position with `Ctrl-i`. These are not buffer specific methods, but they can be used to jump between different buffers. I will talk more about jumps in Chapter 5.
 5. Go to the previously edited buffer with `Ctrl-^`.
 
 
-Once Vim creates a a buffer, it will remain in your buffers list. To remove it, you can type `:bdelete`. It accepts either a buffer number (`:bdelete 3` to delete buffer #3) or a filename (`:bdelete` then use `tab` to autocomplete).
+Once Vim creates a buffer, it will remain in your buffers list. To remove it, you can type `:bdelete`. It accepts either a buffer number (`:bdelete 3` to delete buffer #3) or a filename (`:bdelete` then use `tab` to autocomplete).
 
 The hardest thing for me when learning about buffer was visualizing how it worked. One way to think of it is by imagining my buffers as a deck of cards. If I have 3 buffers, I  have a stack of 3 cards. If I see `file1.js` buffer displayed, then the `file1.js` card is at the top of the deck. I can't see `file2.js` and `file3.js` cards, but I know they are in the deck. If I switch to `file3.js` buffer, I am putting `file1.js` card in the deck and putting `file3.js` card to the top of the deck.
 
 If you haven't used Vim before, this is a new concept. Take your time to understand it. When you're ready, let's move on to windows.
 
-# Windows
+## Exiting Vim
+
+If you have multiple buffers opened and have made some changes, you can close all of them and exit Vim with:
+
+```
+:qall
+```
+
+If you want to exit without saving your changes, just add `!` at the end:
+
+```
+:qall!
+```
+
+## Windows
 
 A window is a viewport on a buffer. You can have multiple windows. Most text editors have the ability to display multiple windows. Below you see a VSCode with 3 windows.
 
-![buffers command showing 2 buffers](./img/screen-vscode-3-windows.png)
+![VSCode showing 3 windows](./img/screen-vscode-3-windows.png)
 
 Let's open `file1.js` from the terminal again:
 ```
@@ -61,7 +75,7 @@ vim file1.js
 
 Earlier I said that you're looking at `file1.js` buffer. While that was correct, it was incomplete. You are looking at `file1.js` buffer displayed through **a window**. A window is what you are seeing a buffer through.
 
-Don't quit vim yet. Run:
+Don't quit Vim yet. Run:
 ```
 :split file2.js
 ```
@@ -117,7 +131,7 @@ And here is a list of useful window Ex commands:
 
 For more, check out `:h window`. Take your time to understand them.
 
-# Tabs
+## Tabs
 
 A tab is a collection of windows. Think of it like a layout for windows. In most modern text editors (and modern internet browsers), a tab means an open file/ page and when you close it, that file/page goes away. In Vim, a tab does not represent an open file. When you close a tab in Vim, you are not closing a file. Remember, Vim stores files in-memory via buffers. Closing a tab (or a window) does not make that file disappear from the buffers.
 
@@ -145,9 +159,9 @@ Below is a list of useful tab navigations:
 :tablast            Go to last tab
 :tabfirst           Go to first tab
 ```
-You can also run `gt` to go to next tab page. You can pass count as argument to `gt`, where count is tab number. To go to the third tab, do `3gt`.
+You can also run `gt` to go to next tab page (you can go to previous tab with `gT`). You can pass count as argument to `gt`, where count is tab number. To go to the third tab, do `3gt`.
 
-One advantage of having multiple tabs is you can have different window arrangements in different tabs. Maybe you want your first tab to have 3 vertical windows and second tab to have a mixed horizontal and horizontal windows layout. Tab is the perfect tool for the job!
+One advantage of having multiple tabs is you can have different window arrangements in different tabs. Maybe you want your first tab to have 3 vertical windows and second tab to have a mixed horizontal and vertical windows layout. Tab is the perfect tool for the job!
 
 ![first tab with multiple windows](./img/tabs-file1js.png)
 
@@ -157,7 +171,7 @@ To start Vim with multiple tabs, you can do this from the terminal:
 ```
 vim -p file1.js file2.js file3.js
 ```
-# Moving in 3D
+## Moving In 3D
 
 Moving between windows is like traveling two-dimensionally along X-Y axis in a Cartesian coordinate. You can move to the top, right, bottom, and left window with `Ctrl-W h/j/k/l`.
 
@@ -172,7 +186,7 @@ You can move in *three-dimensional space* by combining window and buffer movemen
 ![cartesian movement in x, y, and z axis](./img/cartesian-xyz.png)
 
 
-# Using Buffers, Windows, and Tabs the Smart Way
+## Using Buffers, Windows, and Tabs The Smart Way
 
 You have learned how buffers, windows, and tabs work in Vim. To use them efficiently, you need to understand what they are designed for and apply them in your own workflow. Everyone has a different workflow, here is one example.
 

@@ -1,8 +1,8 @@
-# The Dot Command
+# Ch 07. The Dot Command
 
 When editing a text, as much as you can, avoid redoing what you just did. In this chapter, you will learn how to use the dot command to easily replay the previous change. It is the simplest and most versatile command to reduce repetitions.
 
-# Usage
+## Usage
 
 Just like its name, you can use the dot command by pressing the dot key (`.`). 
 
@@ -17,7 +17,7 @@ First, use `/let` to go to the match. Second, use  `cwconst<esc>` to replace "le
 
 In this case, the dot command repeated the `cwconst<esc>` sequence. It saved you from typing eight keystrokes in exchange for just one.
 
-# What is a Change?
+## What Is A Change?
 
 If you look at the definition of the dot command (`:h .`), it says that the dot command repeats the last change. What is a change?
 
@@ -54,7 +54,7 @@ Lets add a comma at the end of each line. Starting at the first line, do `A,<esc
 
 Every action from the moment you press the insert command operator (`A`) until you exit the insert command (`<esc>`) is considered as a change. Vim allows you to control not only what texts to add, but *where* to add them. You can either add them before the cursor (`i`), after the cursor (`a`), on a newline below (`o`), on a newline above (`O`), at the end of current line (`A`), or at the start of current line (`I`). For a refresher, check out the [Insert Mode](./ch6_insert_mode.md) chapter.
 
-# Repeat on Multiple Lines
+## Repeat On Multiple Lines
 
 Suppose you have this text:
 ```
@@ -85,7 +85,7 @@ Let's remove all the z's. First, visually select the only the first z from the f
 
 When you deleted a column of three z's (`Ctrl-vjjd`), it was counted as a change. Visual mode selection can be used to target multiple lines as part of a change.
 
-# Including a Motion in a Change
+## Including A Motion In A Change
 
 Let's revisit the first example in this chapter. Recall that the command `/letcwconst<esc>` followed by `n . n .`  replaced all "let" with "const" in the following expressions:
 ```
@@ -99,10 +99,10 @@ There is a faster way to accomplish this. When deleting, instead of using the `w
 
 When you are editing, always be on the lookout for a motion that can do several things at once like `gn` whenever possible.
 
-# Learn the Dot Command the Smart Way
+## Learn The Dot Command The Smart Way
 
 The dot command's power comes from exchanging several keystrokes for one. It is probably not a profitable exchange to use the dot command for one-keyed-operations like `x`. If your last change requires a complex operation like `cgnconst<esc>`, the dot command reduces nine keypresses into one, a very good trade-off.
 
 When editing, ask if the action you are about to do is repeatable. For example, if I need to remove the next three words, is it more economical to use `d3w` or to do `dw` then `.` two times? Will you be deleting a word again? If so, then it makes sense to use `dw` and repeat it several times instead of `d3w` because `dw` is more reusable than `d3w`. Keep a "change-driven" mindset while editing.
 
-The dot command is an easy and versatile command to start automating simple tasks. In the later chapter, you will learn how to automate more complex actions with Vim macros. But first, let's learn about registers to store and retrieve texts.
+The dot command is an easy and versatile command to start automating simple tasks. In the later chapter, you will learn how to automate more complex actions with Vim macros. But first, let's learn about registers to store and retrieve text.
